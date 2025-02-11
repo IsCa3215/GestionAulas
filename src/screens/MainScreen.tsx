@@ -3,14 +3,14 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import useStore from "../store/userStore";
 import ProfileScreen from './ProfileScreen';
-import { Avatar, Button, Card } from 'react-native-paper';
+import { Button, Card } from 'react-native-paper';
+import eventStore from '../store/eventStore';
 
 const Tab = createBottomTabNavigator();
 
+
 export const MainScreen: React.FC = () => {
-  const { user, loading, error } = useStore();
-  console.log('User:', user); 
-  
+  const { loading, error } = useStore();
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -38,16 +38,24 @@ export const MainScreen: React.FC = () => {
 
 const HomeScreen: React.FC = () => {
   const { user } = useStore();
+  const { userEvents } = eventStore();
   return (
     <View style={{ flex: 1 }}>
       {user ? (
-        <Text style={{fontSize: 20}}>{`Bienvenid@, ${user.name || ''}`}</Text>
+        <Text style={{fontSize: 30, textAlign: 'center', marginTop: 10,padding:30, borderWidth: 7,borderStyle: 'solid', borderRadius: 6, marginLeft: 10, marginRight: 10}}>{`Bienvenid@, ${user.name || ''}`}</Text>
       ) : (
         <Text>Logeate</Text>
       )}
-    <Card>
-      <Card.Title></Card.Title>
-    </Card>
+      {userEvents.map((event, index) => (
+        <Card key={index} style={{ margin: 10 }}>
+          <Card.Title title={event.title} subtitle={event.grade} style={{ backgroundColor: 'grey', borderTopLeftRadius: 14, borderTopRightRadius: 14}}></Card.Title>
+          <Text style={{fontSize: 18, padding: 10}}>{event.description}</Text>
+          <Card.Cover source={{ uri: `${event.image}`}}></Card.Cover>
+          <Card.Actions>
+            <Button>Unirse</Button>
+          </Card.Actions>
+        </Card>
+      ))}
 
     </View>
   );

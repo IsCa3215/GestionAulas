@@ -3,7 +3,7 @@ import { cardEntity } from "../entities/cardEntity";
 import { UserEntity, UserEntityLogin } from "../entities/userEntity";
 
 
-const defaultUrl = 'http://192.168.9.35:3030';
+const defaultUrl = 'http://192.168.1.146:3030';
 
 // USER CONNECTION ------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ export const loginUser = async (user: UserEntityLogin): Promise<UserEntity> => {
 
 // EVENTS CONNECTION --------------------------------------------------------------------------
 
-export const getEventsConnection = async (): Promise<cardEntity> => {
+export const getEventsConnection = async (): Promise<cardEntity[]> => {
   try {
     const response = await fetch(`${defaultUrl}/getEvents`, {
       method: 'GET',  
@@ -70,7 +70,7 @@ export const getEventsConnection = async (): Promise<cardEntity> => {
           'Content-Type': 'application/json',  
       },
   });
-  const tal = await response.json() as cardEntity;
+  const tal = await response.json() as cardEntity[];
   console.log(tal)
   return tal;
   } catch (error){
@@ -102,23 +102,28 @@ export const newEvent = async (card: cardEntity): Promise<cardEntity> => {
 export const userEvents = async (user: UserEntityLogin): Promise<cardEntity> => {
   try {
     const response = await fetch(`${defaultUrl}/getUserEvents`,{
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',  
       },
+      body: JSON.stringify(user)
     })
-    const res = await response.json() as cardEntity;
+    const res = await response.json();
     if(response.ok){
+      console.log("connection", res)
       return res;
     } else {
-      throw Error;
+      throw new Error('Failed to fetch user events');
     }
-  } catch (error) {
-    throw error;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('An unexpected error occurred');
   }
 }
 
-export const joinEvent = async (id: number, user: UserEntity) => {
+export const joinEvent = async (id: String, user: UserEntity) => {
   try{
     const response = await fetch(`${defaultUrl}/joinEvent`, {
       method: 'POST',

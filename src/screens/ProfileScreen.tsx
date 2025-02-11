@@ -17,9 +17,6 @@ const ProfileScreen: React.FC = () => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <View style={styles.header}>
-                    <Text style={styles.title}>Profile</Text>
-                </View>
                 <View style={styles.content}>
                     <ProfileItem label="Nombre" value={user?.name ?? ''} />
                     <ProfileItem label="Edad" value={user?.age ?? ''} />

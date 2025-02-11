@@ -4,12 +4,17 @@ import { UserEntity } from '../entities/userEntity';
 import useStore from '../store/userStore';
 import SesionScreen from './SesionScreen';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Modal } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
 const RegisterComponent = ({ navigation }: { navigation: NativeStackNavigationProp<any> }) => {
   const { registerUser } = useStore();
+  const [visible, setVisible] = React.useState(false);
 
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {backgroundColor: 'white', padding: 0};
   const [formData, setFormData] = useState<UserEntity>({
     name: '',
     age: 0,
@@ -87,10 +92,16 @@ const RegisterComponent = ({ navigation }: { navigation: NativeStackNavigationPr
           const reg = await registerUser(formData);
           if (reg) {
             navigation.navigate('Login');
+          } else  {
+            showModal();
           }
         }}>
           <Text style={styles.buttonText}>Register</Text>
+          
         </TouchableOpacity>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+          <Text style={{fontSize: 30}}>El correo ya existe</Text>
+        </Modal>
       </View>
     </ScrollView>
   );

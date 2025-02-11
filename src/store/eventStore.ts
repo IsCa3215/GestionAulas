@@ -6,23 +6,29 @@ import { getEventsConnection, joinEvent, newEvent, userEvents } from "../service
 
 interface eventStore {
     userEvents: cardEntity[];
-    getEvents: () => Promise<cardEntity>;
-    getUserEvents: (user: UserEntityLogin) => Promise<cardEntity>
+    getEvents: () => Promise<cardEntity[]>;
+    getUserEvents: (user: UserEntityLogin) => Promise<cardEntity[]>
     addEvent: (card: cardEntity) => Promise<cardEntity>;
-    joinEventt: (id: number, user: UserEntity) => void;
+    joinEventt: (id: String, user: UserEntity) => void;
 }
 
 const eventStore = create<eventStore>((set, get) => ({
+    userEvents: [],
     async getEvents() {
         return await getEventsConnection();
     },
     async addEvent(card: cardEntity){
         return await newEvent(card);
     },
-    async joinEventt(id: number, user: UserEntity){
+    async joinEventt(id: String, user: UserEntity){
         await joinEvent(id, user);
+        const events = await userEvents({ email: user.email, password: user.token });
+        set({ userEvents: Array.isArray(events) ? events : [events] });
     },
-    async getUserEvents(user: UserEntityLogin) {
-        const eventoUsuario = await userEvents(user);
+    async getUserEvents(user: UserEntityLogin): Promise<cardEntity[]> {
+        const eventoUsuario: cardEntity | cardEntity[] = await userEvents(user);
+        set({ userEvents: Array.isArray(eventoUsuario) ? eventoUsuario : [eventoUsuario] });
+        return get().userEvents;
     },
-}))
+}));
+export default eventStore;

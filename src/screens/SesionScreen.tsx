@@ -5,14 +5,17 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-na
 import { useState } from "react";
 import useStore from "../store/userStore";
 import { MainScreen } from "./MainScreen";
-import { joinEvent, loginUser } from "../services/connection";
+
 import RegisterScreen from "./RegisterScreen";
-import { UserEntity, UserEntityLogin } from "../entities/userEntity";
+import {  UserEntityLogin } from "../entities/userEntity";
+import eventStore from "../store/eventStore";
+import { joinEvent, userEvents } from "../services/connection";
 
 const Stack = createNativeStackNavigator();
 
 const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<any> }) => {
   const { loginUserStore, user, loading} = useStore();
+  const {getUserEvents, userEvents, joinEventt} = eventStore();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -46,12 +49,10 @@ const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<
             password: password
           }
           const result = await loginUserStore(entity);
-
           if (result) {
-            const tal = await joinEvent(1, result);
-            console.log(tal);
-            navigation.navigate('Main');
-          }
+              console.log("user events tiene ", userEvents[0]);
+              navigation.navigate('Main');
+            }
         }} 
       />
       <View style={styles.footer}>
