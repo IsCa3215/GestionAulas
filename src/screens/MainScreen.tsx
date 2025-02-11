@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import useStore from "../store/userStore";
 import ProfileScreen from './ProfileScreen';
+import { Avatar, Button, Card } from 'react-native-paper';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,6 +45,10 @@ const HomeScreen: React.FC = () => {
       ) : (
         <Text>Logeate</Text>
       )}
+    <Card>
+      <Card.Title></Card.Title>
+    </Card>
+
     </View>
   );
 };

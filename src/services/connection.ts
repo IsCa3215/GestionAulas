@@ -99,6 +99,25 @@ export const newEvent = async (card: cardEntity): Promise<cardEntity> => {
   }
 }
 
+export const userEvents = async (user: UserEntityLogin): Promise<cardEntity> => {
+  try {
+    const response = await fetch(`${defaultUrl}/getUserEvents`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',  
+      },
+    })
+    const res = await response.json() as cardEntity;
+    if(response.ok){
+      return res;
+    } else {
+      throw Error;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const joinEvent = async (id: number, user: UserEntity) => {
   try{
     const response = await fetch(`${defaultUrl}/joinEvent`, {
