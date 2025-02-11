@@ -21,12 +21,12 @@ const ProfileScreen: React.FC = () => {
                     <Text style={styles.title}>Profile</Text>
                 </View>
                 <View style={styles.content}>
-                    <ProfileItem label="Name" value={user?.name ?? ''} />
-                    <ProfileItem label="Age" value={user?.age ?? ''} />
+                    <ProfileItem label="Nombre" value={user?.name ?? ''} />
+                    <ProfileItem label="Edad" value={user?.age ?? ''} />
                     <ProfileItem label="Email" value={user?.email ?? ''} />
-                    <ProfileItem label="Course" value={user?.course ?? ''} />
-                    <ProfileItem label="Grade" value={user?.grade ?? ''} />
-                    <ProfileItem label="Module" value={user?.module ?? ''} />
+                    <ProfileItem label="Curso" value={user?.course ?? ''} />
+                    <ProfileItem label="Modulo" value={user?.grade ?? ''} />
+                    <ProfileItem label="Instituto" value={user?.module ?? ''} />
                 </View>
             </ScrollView>
         </SafeAreaView>

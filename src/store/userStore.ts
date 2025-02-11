@@ -8,8 +8,10 @@ interface UserStore {
   error: string | null;
   loginUserStore: (user: UserEntityLogin) => Promise<UserEntity | null>;
   removeUser: () => void;
-  registerUser: (user: UserEntity) => Promise<any>;
+  registerUser: (user: UserEntity) => Promise<UserEntity | null>;
 }
+
+
 
 const useStore = create<UserStore>((set, get) => ({
   user: null,
@@ -30,7 +32,7 @@ const useStore = create<UserStore>((set, get) => ({
       const loggedUser = await loginUser(user);
 
       if (!loggedUser || !loggedUser.token) { // si no hay usuario o token el login falla
-        set({ error: 'Login failed: Token missing or incorrect', loading: false, user: null });
+        set({ error: 'Login fallido: ', loading: false, user: null });
         return null;
       }
 
@@ -40,7 +42,7 @@ const useStore = create<UserStore>((set, get) => ({
     } catch (error) {
       set({
         loading: false,
-        error: 'Login failed: ' + (error instanceof Error ? error.message : 'Unknown error'),
+        error: 'Login fallido: ' + (error instanceof Error),
       });
       console.error('Login failed', error);
       return null;
@@ -51,8 +53,24 @@ const useStore = create<UserStore>((set, get) => ({
     set({ user: null });
   },
 
-  registerUser: async (user: UserEntity) => {
-    return registerUser(user);
+  registerUser: async (user: UserEntity): Promise<UserEntity | null> => {
+    set({loading: true, error: null, user: null});
+    try{
+      const registeredUser = await registerUser(user);
+      if(!registeredUser || ! registeredUser.email || !registeredUser.token || !registeredUser.age || !registeredUser.course || !registeredUser.grade || !registeredUser.module || !registeredUser.name){
+        set({ error: 'Register fallido: ', loading: false, user: null });
+        return null;
+      }
+      set({ user: registeredUser, loading: false });
+      return registeredUser;
+
+    } catch (error){
+      set({
+        loading: false,
+        error: 'Ha ocurrido un error en el registro.'
+      })
+      return null;
+    }
   }
 }));
 export default useStore;

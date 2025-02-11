@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import useStore from "../store/userStore";
-import SesionScreen from './SesionScreen';
 import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
@@ -10,6 +9,7 @@ const Tab = createBottomTabNavigator();
 export const MainScreen: React.FC = () => {
   const { user, loading, error } = useStore();
   console.log('User:', user); 
+  
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -22,15 +22,15 @@ export const MainScreen: React.FC = () => {
   if (error) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{`Errol: ${error}`}</Text>
+        <Text>{`Error: ${error}`}</Text>
       </View>
     );
   }
 
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Inicio" component={HomeScreen} />
+      <Tab.Screen name="Perfil" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
@@ -38,9 +38,9 @@ export const MainScreen: React.FC = () => {
 const HomeScreen: React.FC = () => {
   const { user } = useStore();
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       {user ? (
-        <Text>{`Bienvenid@, ${user.name || ''}`}</Text> // Muestra el nombre del usuario o un texto por defecto
+        <Text style={{fontSize: 20}}>{`Bienvenid@, ${user.name || ''}`}</Text>
       ) : (
         <Text>Logeate</Text>
       )}

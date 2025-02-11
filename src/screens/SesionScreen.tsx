@@ -4,9 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from "react";
 import useStore from "../store/userStore";
-import RegisterScreen from "./RegisterScreen";
 import { MainScreen } from "./MainScreen";
-import { loginUser } from "../services/connection";
+import { joinEvent, loginUser } from "../services/connection";
+import RegisterScreen from "./RegisterScreen";
+import { UserEntity, UserEntityLogin } from "../entities/userEntity";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,8 +41,15 @@ const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<
         title="Iniciar sesión" 
         color="#005D8C"
         onPress={async () => {
-          const result = await loginUserStore({ email, password });
-          if (result?.email != null) {
+          const entity: UserEntityLogin = {
+            email: email,
+            password: password
+          }
+          const result = await loginUserStore(entity);
+
+          if (result) {
+            const tal = await joinEvent(1, result);
+            console.log(tal);
             navigation.navigate('Main');
           }
         }} 
@@ -111,7 +119,7 @@ const styles = StyleSheet.create({
 const SesionScreen = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={LoginComponent} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Main" component={MainScreen} />
