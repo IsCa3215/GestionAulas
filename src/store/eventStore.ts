@@ -6,22 +6,27 @@ import { getEventsConnection, joinEvent, newEvent, userEvents } from "../service
 
 interface eventStore {
     userEvents: cardEntity[];
+    globalEvents: cardEntity[];
     getEvents: () => Promise<cardEntity[]>;
     getUserEvents: (user: UserEntityLogin) => Promise<cardEntity[]>
     addEvent: (card: cardEntity) => Promise<cardEntity>;
-    joinEventt: (id: String, user: UserEntity) => void;
+    joinEventt: (card: cardEntity, user: UserEntity) => void;
 }
 
 const eventStore = create<eventStore>((set, get) => ({
     userEvents: [],
+    globalEvents: [],
     async getEvents() {
-        return await getEventsConnection();
+        const globalEventos = await getEventsConnection();
+        set({ globalEvents: Array.isArray(globalEventos) ? globalEventos: [globalEventos]})
+        console.log(this.globalEvents)
+        return get().globalEvents;
     },
     async addEvent(card: cardEntity){
         return await newEvent(card);
     },
-    async joinEventt(id: String, user: UserEntity){
-        await joinEvent(id, user);
+    async joinEventt(card: cardEntity, user: UserEntity){
+        await joinEvent(card, user);
         const events = await userEvents({ email: user.email, password: user.token });
         set({ userEvents: Array.isArray(events) ? events : [events] });
     },

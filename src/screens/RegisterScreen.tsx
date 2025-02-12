@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { UserEntity } from '../entities/userEntity';
 import useStore from '../store/userStore';
 import SesionScreen from './SesionScreen';
@@ -145,11 +145,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#007AFF',
-    padding: 15,
-    borderRadius: 5,
+    backgroundColor: '#007A5F',
+    padding: 20,
+    borderRadius: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 15,
   },
   buttonText: {
     color: '#fff',

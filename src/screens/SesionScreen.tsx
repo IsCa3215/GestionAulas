@@ -9,13 +9,12 @@ import { MainScreen } from "./MainScreen";
 import RegisterScreen from "./RegisterScreen";
 import {  UserEntityLogin } from "../entities/userEntity";
 import eventStore from "../store/eventStore";
-import { joinEvent, userEvents } from "../services/connection";
 
 const Stack = createNativeStackNavigator();
 
 const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<any> }) => {
   const { loginUserStore, user, loading} = useStore();
-  const {getUserEvents, userEvents, joinEventt} = eventStore();
+  const {getUserEvents, userEvents, joinEventt, getEvents} = eventStore();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -50,7 +49,9 @@ const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<
           }
           const result = await loginUserStore(entity);
           if (result) {
+            await getUserEvents(entity);
               console.log("user events tiene ", userEvents[0]);
+              getEvents();
               navigation.navigate('Main');
             }
         }} 
@@ -59,7 +60,7 @@ const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<
         <Button 
           title="Registrarse" 
           color="#000"
-          onPress={() => navigation.navigate('Register')} 
+          onPress={() => {navigation.navigate('Register')}} 
         />
       </View>
     </View>

@@ -3,7 +3,7 @@ import { cardEntity } from "../entities/cardEntity";
 import { UserEntity, UserEntityLogin } from "../entities/userEntity";
 
 
-const defaultUrl = 'http://192.168.1.146:3030';
+const defaultUrl = 'http://192.168.9.35:3030';
 
 // USER CONNECTION ------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ export const getEventsConnection = async (): Promise<cardEntity[]> => {
       },
   });
   const tal = await response.json() as cardEntity[];
-  console.log(tal)
+  console.log("eventos obtenidos: ", tal)
   return tal;
   } catch (error){
     throw error
@@ -109,6 +109,7 @@ export const userEvents = async (user: UserEntityLogin): Promise<cardEntity> => 
       body: JSON.stringify(user)
     })
     const res = await response.json();
+    console.log("usereventos")
     if(response.ok){
       console.log("connection", res)
       return res;
@@ -123,16 +124,15 @@ export const userEvents = async (user: UserEntityLogin): Promise<cardEntity> => 
   }
 }
 
-export const joinEvent = async (id: String, user: UserEntity) => {
+export const joinEvent = async (card: cardEntity, {email}: UserEntity) => {
   try{
     const response = await fetch(`${defaultUrl}/joinEvent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',  
       },
-      body: JSON.stringify({ id, user })
+      body: JSON.stringify({ card, email })
     })
-    console.log(response)
   } catch (Error){
     throw Error
   }

@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import useStore from "../store/userStore";
 import ProfileScreen from './ProfileScreen';
 import { Button, Card } from 'react-native-paper';
 import eventStore from '../store/eventStore';
+import { EventScreen } from './EventScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +32,7 @@ export const MainScreen: React.FC = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Inicio" component={HomeScreen} />
+      <Tab.Screen name="Eventos" component={EventScreen} />
       <Tab.Screen name="Perfil" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -40,7 +42,7 @@ const HomeScreen: React.FC = () => {
   const { user } = useStore();
   const { userEvents } = eventStore();
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       {user ? (
         <Text style={{fontSize: 30, textAlign: 'center', marginTop: 10,padding:30, borderWidth: 7,borderStyle: 'solid', borderRadius: 6, marginLeft: 10, marginRight: 10}}>{`Bienvenid@, ${user.name || ''}`}</Text>
       ) : (
@@ -51,12 +53,9 @@ const HomeScreen: React.FC = () => {
           <Card.Title title={event.title} subtitle={event.grade} style={{ backgroundColor: 'grey', borderTopLeftRadius: 14, borderTopRightRadius: 14}}></Card.Title>
           <Text style={{fontSize: 18, padding: 10}}>{event.description}</Text>
           <Card.Cover source={{ uri: `${event.image}`}}></Card.Cover>
-          <Card.Actions>
-            <Button>Unirse</Button>
-          </Card.Actions>
         </Card>
       ))}
 
-    </View>
+    </ScrollView>
   );
 };
