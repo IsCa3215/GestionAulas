@@ -44,7 +44,7 @@ const HomeScreen: React.FC = () => {
   return (
     <ScrollView style={{ flex: 1 }}>
       {user ? (
-        <Text style={{fontSize: 30, textAlign: 'center', marginTop: 10,padding:30, borderWidth: 7,borderStyle: 'solid', borderRadius: 6, marginLeft: 10, marginRight: 10}}>{`Bienvenid@, ${user.name || ''}`}</Text>
+        <Text style={{fontSize: 30, textAlign: 'center', marginTop: 10,padding:30, borderWidth: 7,borderStyle: 'solid', borderRadius: 60, marginLeft: 10, marginRight: 10, fontFamily: 'Cochin'}}>{`Bienvenid@, ${user.name || ''}`}</Text>
       ) : (
         <Text>Logeate</Text>
       )}

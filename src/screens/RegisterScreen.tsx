@@ -28,7 +28,7 @@ const RegisterComponent = ({ navigation }: { navigation: NativeStackNavigationPr
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.inputContainer}>
+      <View style={styles.inputCont}>
         <Text style={styles.label}>Nombre</Text>
         <TextInput
           style={styles.input}
@@ -88,7 +88,7 @@ const RegisterComponent = ({ navigation }: { navigation: NativeStackNavigationPr
           placeholder="instituto"
         />
 
-        <TouchableOpacity style={styles.button} onPress={async () => {
+        <TouchableOpacity style={styles.boto} onPress={async () => {
           const reg = await registerUser(formData);
           if (reg) {
             navigation.navigate('Login');
@@ -96,7 +96,7 @@ const RegisterComponent = ({ navigation }: { navigation: NativeStackNavigationPr
             showModal();
           }
         }}>
-          <Text style={styles.buttonText}>Register</Text>
+          <Text style={styles.textoBoton}>Register</Text>
           
         </TouchableOpacity>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
@@ -120,15 +120,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  inputContainer: {
+  inputCont: {
     width: '100%',
   },
   label: {
@@ -144,14 +137,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
   },
-  button: {
-    backgroundColor: '#007A5F',
+  boto: {
+    backgroundColor: '#005A8F',
     padding: 20,
     borderRadius: 20,
     alignItems: 'center',
     marginTop: 15,
   },
-  buttonText: {
+  textoBoton: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',

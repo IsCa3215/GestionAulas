@@ -10,7 +10,7 @@ interface eventStore {
     getEvents: () => Promise<cardEntity[]>;
     getUserEvents: (user: UserEntityLogin) => Promise<cardEntity[]>
     addEvent: (card: cardEntity) => Promise<cardEntity>;
-    joinEventt: (card: cardEntity, user: UserEntity) => void;
+    joinEventStore: (card: cardEntity, user: UserEntity) => void;
 }
 
 const eventStore = create<eventStore>((set, get) => ({
@@ -25,7 +25,7 @@ const eventStore = create<eventStore>((set, get) => ({
     async addEvent(card: cardEntity){
         return await newEvent(card);
     },
-    async joinEventt(card: cardEntity, user: UserEntity){
+    async joinEventStore(card: cardEntity, user: UserEntity){
         await joinEvent(card, user);
         const events = await userEvents({ email: user.email, password: user.token });
         set({ userEvents: Array.isArray(events) ? events : [events] });

@@ -13,8 +13,8 @@ import eventStore from "../store/eventStore";
 const Stack = createNativeStackNavigator();
 
 const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<any> }) => {
-  const { loginUserStore, user, loading} = useStore();
-  const {getUserEvents, userEvents, joinEventt, getEvents} = eventStore();
+  const { loginUserStore} = useStore();
+  const {getUserEvents, userEvents, joinEventStore: joinEventt, getEvents} = eventStore();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -22,7 +22,7 @@ const LoginComponent = ({ navigation }: { navigation: NativeStackNavigationProp<
   return (
     <View style={styles.container}>
       <StatusBar animated={true} backgroundColor="#005D8C" barStyle="light-content" />
-      <Icon name="rocket" size={40} color="#FFFFFF" style={styles.icon} />
+      <Icon name="home" size={40} color="#FFFFFF" />
       <Text style={styles.texto}>Bienvenido</Text>
       <TextInput 
         style={styles.input} 

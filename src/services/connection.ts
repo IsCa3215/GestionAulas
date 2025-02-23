@@ -3,7 +3,7 @@ import { cardEntity } from "../entities/cardEntity";
 import { UserEntity, UserEntityLogin } from "../entities/userEntity";
 
 
-const defaultUrl = 'http://192.168.9.35:3030';
+const defaultUrl = 'http://192.168.1.146:3030';
 
 // USER CONNECTION ------------------------------------------------------------------
 

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { UserEntity, UserEntityLogin } from "../entities/userEntity";
-import { loginUser, registerUser } from "../services/connection"; // Suponemos que la función loginUser está correctamente definida
+import { loginUser, registerUser } from "../services/connection"; 
 
 interface UserStore {
   user: UserEntity | null; // user tiene que ser de tipo userEntity para poder recuperar toda la información del usuario
